@@ -3,8 +3,8 @@ from databricks_mcp import DatabricksMCPClient
 from databricks.sdk import WorkspaceClient
 
 # INPUTS - TODO: Update these
-DATABRICKS_CLI_PROFILE = os.getenv("DATABRICKS_CLI_PROFILE")
-GENIE_SPACE_ID = os.getenv("GENIE_SPACE_ID")
+DATABRICKS_CLI_PROFILE = os.environ["DATABRICKS_CLI_PROFILE"]
+GENIE_SPACE_ID = os.environ["GENIE_SPACE_ID"]
 
 workspace_client = WorkspaceClient(profile=DATABRICKS_CLI_PROFILE)
 host = workspace_client.config.host

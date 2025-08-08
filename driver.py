@@ -9,16 +9,16 @@ from mlflow.models.resources import (
 from databricks import agents
 
 # region INPUTS
-DATABRICKS_CLI_PROFILE = os.getenv("DATABRICKS_CLI_PROFILE")
-EXPERIMENT_NAME = os.getenv("EXPERIMENT_NAME")
+DATABRICKS_CLI_PROFILE = os.environ["DATABRICKS_CLI_PROFILE"]
+EXPERIMENT_NAME = os.environ["EXPERIMENT_NAME"]
 
-LLM_ENDPOINT_NAME = os.getenv("LLM_ENDPOINT_NAME")
-GENIE_SPACE_ID = os.getenv("GENIE_SPACE_ID")
-TABLE_NAMES = json.loads(os.getenv("TABLE_NAMES"))
+LLM_ENDPOINT_NAME = os.environ["LLM_ENDPOINT_NAME"]
+GENIE_SPACE_ID = os.environ["GENIE_SPACE_ID"]
+TABLE_NAMES = json.loads(os.environ["TABLE_NAMES"])
 
-CATALOG_NAME = os.getenv("CATALOG_NAME")
-SCHEMA_NAME = os.getenv("SCHEMA_NAME")
-MODEL_NAME = os.getenv("MODEL_NAME")
+CATALOG_NAME = os.environ["CATALOG_NAME"]
+SCHEMA_NAME = os.environ["SCHEMA_NAME"]
+MODEL_NAME = os.environ["MODEL_NAME"]
 # endregion INPUTS
 
 
@@ -74,4 +74,12 @@ deployment = agents.deploy(
     model_version=model_info.version,
 )
 print("Agent query endpoint:", deployment.query_endpoint)
+
+# OPTIONAL: Wait for deployment to complete
+from databricks.sdk import WorkspaceClient
+
+w = WorkspaceClient(profile=DATABRICKS_CLI_PROFILE)
+endpoint = w.serving_endpoints.wait_get_serving_endpoint_not_updating(deployment.endpoint_name)
+print(f"Final deployment status: {endpoint.state.config_update}")
+print(f"Final config version: {endpoint.config.config_version}")
 # endregion 3 - DEPLOY AGENT
