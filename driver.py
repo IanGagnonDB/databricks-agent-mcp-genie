@@ -83,6 +83,10 @@ print("Starting Step 3 (Deploy Agent)...")
 deployment = agents.deploy(
     model_name=model_name,
     model_version=model_info.version,
+    environment_vars={
+        "DATABRICKS_CLI_PROFILE": DATABRICKS_CLI_PROFILE,
+        "GENIE_SPACE_ID": GENIE_SPACE_ID,
+    },
 )
 print("Agent query endpoint:", deployment.query_endpoint)
 
