@@ -19,6 +19,35 @@ The MCP Agent leverages Databricks' managed MCP servers to create a conversation
 - `README.md` - This documentation
 
 ## Prerequisites
+### Optional: Deploy a VM for Private Workspace Access
+
+If your Databricks workspace **does not allow Public Network Access** (i.e., it is configured for private access only), you will need a jumpbox within the workspace's Virtual Network (VNet) to access Databricks and related resources.
+
+**Recommended Approach (Azure):**
+1. **Deploy a Virtual Machine (VM):**
+   - Use the Azure Portal or CLI to deploy an Ubuntu 24.04 VM within the same VNet as your Databricks workspace.
+   - Assign a Public IP address to the VM.
+   - Allow inbound access on port 22 (SSH) to your personal IP address.
+
+2. **Connect to the VM:**
+   - SSH into the VM:
+     ```bash
+     ssh <your-username>@<public-ip-address>
+     ```
+
+3. **Set Up Python Environment:**
+   - Install Python tools:
+     ```bash
+     sudo apt update
+     sudo apt install python3-pip python3-venv -y
+     ```
+   - Create and activate the virtual environment:
+     ```bash
+     python3 -m venv venv
+     source venv/bin/activate
+     ```
+
+You can now proceed with the rest of the setup and run the agent from within this VM, ensuring secure, private connectivity to your Databricks workspace.
 
 ### Python Environment Setup
 A Python environment must be properly set up using the provided `requirements.txt` file:
@@ -49,7 +78,7 @@ export TABLE_NAMES='["table1", "table2", "table3"]'
 ```
 
 ### Databricks Setup
-1. **Databricks CLI**: Ensure the Databricks CLI is installed and configured with appropriate authentication
+1. **Databricks CLI**: Ensure the [Databricks CLI](https://learn.microsoft.com/en-ca/azure/databricks/dev-tools/cli/install) is installed and configured with appropriate authentication
 2. **Workspace Access**: Your profile must have access to the target Databricks workspace
 3. **Genie Space**: A configured Genie space with the specified `GENIE_SPACE_ID`
 4. **LLM Endpoint**: Access to a serving endpoint for the LLM (e.g., Claude, GPT models)
