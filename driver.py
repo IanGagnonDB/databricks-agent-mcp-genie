@@ -26,7 +26,6 @@ MODEL_NAME = os.environ["MODEL_NAME"]
 current_dir = os.path.dirname(os.path.abspath(__file__))
 mcp_agent_path = os.path.join(current_dir, "mcp_agent.py")
 
-os.environ["DATABRICKS_CONFIG_PROFILE"] = DATABRICKS_CLI_PROFILE
 # Set tracking URI to Databricks so models go to your workspace
 mlflow.set_tracking_uri(f"databricks://{DATABRICKS_CLI_PROFILE}")
 mlflow.set_experiment(EXPERIMENT_NAME)

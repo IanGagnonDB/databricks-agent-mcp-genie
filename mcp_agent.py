@@ -1,6 +1,6 @@
+import os
 import json
 import uuid
-import asyncio
 from typing import Any, Callable, List
 from pydantic import BaseModel
 
@@ -12,8 +12,8 @@ from databricks_mcp import DatabricksMCPClient
 from databricks.sdk import WorkspaceClient
 
 # INPUTS - TODO: Update these
-DATABRICKS_CLI_PROFILE = "field-eng-east"
-GENIE_SPACE_ID = "01f05dfe18a8101da6e90846a5d13a45"
+DATABRICKS_CLI_PROFILE = os.environ["DATABRICKS_CLI_PROFILE"]
+GENIE_SPACE_ID = os.environ["GENIE_SPACE_ID"]
 
 # 1) CONFIGURE YOUR ENDPOINTS/PROFILE
 LLM_ENDPOINT_NAME = "databricks-claude-3-7-sonnet"
@@ -29,12 +29,11 @@ host = workspace_client.config.host
 # f"{host}/api/2.0/mcp/genie/<genie_space_id>"
 # to include a Genie space
 MANAGED_MCP_SERVER_URLS = [
-#  f"{host}/api/2.0/mcp/functions/system/ai",
+    #  f"{host}/api/2.0/mcp/functions/system/ai",
     f"{host}/api/2.0/mcp/genie/{GENIE_SPACE_ID}",
 ]
 # Add Custom MCP Servers hosted on Databricks Apps
 CUSTOM_MCP_SERVER_URLS = []
-
 
 
 # 2) HELPER: convert between ResponsesAgent “message dict” and ChatCompletions format
