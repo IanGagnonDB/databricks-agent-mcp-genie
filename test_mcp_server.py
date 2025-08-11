@@ -6,14 +6,12 @@ from databricks.sdk import WorkspaceClient
 DATABRICKS_CLI_PROFILE = os.environ["DATABRICKS_CLI_PROFILE"]
 GENIE_SPACE_ID = os.environ["GENIE_SPACE_ID"]
 
+
 workspace_client = WorkspaceClient(profile=DATABRICKS_CLI_PROFILE)
 host = workspace_client.config.host
-# mcp_server_url = f"{host}/api/2.0/mcp/functions/system/ai"
 mcp_server_url = f"{host}/api/2.0/mcp/genie/{GENIE_SPACE_ID}"
 
 
-# This snippet below uses the Unity Catalog functions MCP server to expose built-in
-# AI tools under `system.ai`, like the `system.ai.python_exec` code interpreter tool
 def test_connect_to_server():
     mcp_client = DatabricksMCPClient(
         server_url=mcp_server_url, workspace_client=workspace_client
